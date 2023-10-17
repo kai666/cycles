@@ -1,5 +1,5 @@
 # cycles
-small tool to measure instruction count with linux perf API
+small tool to measure instruction count of a sub command with linux perf API
 
 # usage
 
