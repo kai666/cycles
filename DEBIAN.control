@@ -1,0 +1,9 @@
+Package: cycles
+Version: 0.1
+Section: base
+Priority: optional
+Architecture: all
+Depends: libc6
+Maintainer: Kai Doernemann <kai@doernemann.net>
+Description: small tool to measure instruction count
+ measure instruction count for a command
