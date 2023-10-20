@@ -18,3 +18,9 @@ $ sudo ./cycles -u 100 -g "100,1000,3000" /bin/id
 uid=100(messagebus) gid=100(users) groups=100(users),1000(kai),3000(azure)
 cycles: 490215
 ```
+
+```
+$ sudo ./cycles -u kai -g kai /bin/id
+uid=1000(kai) gid=1000(kai) groups=1000(kai)
+cycles: 460964
+```

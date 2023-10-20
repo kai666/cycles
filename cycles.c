@@ -89,6 +89,19 @@ arrayofuint(const char * const x, size_t maxidx, u_int *arr)
 			if (idx >= maxidx)
 				return idx;
 		}
+		if (isalpha(c) || c == '_') {
+			char grname[32];
+			int n = 0;
+			while ((n < sizeof(grname)-1) && (isalnum(c) || c == '_')) {
+				grname[n++] = c;
+				c = *s++;
+			}
+			grname[n++] = '\0';
+			struct group *g = getgrnam(grname);
+			if (g == NULL)
+				err(1, "getgrnam(%s)", grname);
+			arr[idx++] = g->gr_gid;
+		}
 		if (c == '\0')
 			return idx;
 		if (!(isspace(c) || c == ':' || c == ','))
@@ -140,15 +153,22 @@ main(int argc, char *argv[])
 	unsigned long x;
 	char *endptr;
 
+	struct passwd *pwent;
+
 	int opt;
 	while ((opt = getopt(argc, argv, "u:g:")) != -1) {
 		switch (opt) {
 			case 'u':
 				/* set user id in child process */
-				x = strtoul(optarg, &endptr, 10);
-				if (*endptr != '\0')
-					errx(1, "parameter '%s' not numeric", optarg);
-				uid = (uid_t) x;
+				pwent = getpwnam(optarg);
+				if (pwent != NULL) {
+					uid = pwent->pw_uid;
+				} else {
+					x = strtoul(optarg, &endptr, 10);
+					if (*endptr != '\0')
+						errx(1, "parameter '%s' not numeric and not a groupname", optarg);
+					uid = (uid_t) x;
+				}
 				break;
 			case 'g':
 				/* set groups list in child process */
