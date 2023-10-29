@@ -141,6 +141,20 @@ setuidgid(uid_t uid, int gidcount, const gid_t * const gids)
 			err(1, "setresuid");
 }
 
+void
+usage(void)
+{
+	fprintf(stderr, "cycles - count CPU cycles for a command\n"
+	    "\n"
+	    "usage: cycles [-u user/id] [-g group/id[,group/id,...]] <command>\n"
+	    "\n"
+	    "options:\n"
+	    "\t-u user/id	set identity before starting command\n"
+	    "\t-g group/id,...	set list of groups before starting command\n"
+	);
+	exit(2);
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -156,7 +170,7 @@ main(int argc, char *argv[])
 	struct passwd *pwent;
 
 	int opt;
-	while ((opt = getopt(argc, argv, "u:g:")) != -1) {
+	while ((opt = getopt(argc, argv, "u:g:h")) != -1) {
 		switch (opt) {
 			case 'u':
 				/* set user id in child process */
@@ -173,6 +187,9 @@ main(int argc, char *argv[])
 			case 'g':
 				/* set groups list in child process */
 				gidcount = arrayofuint(optarg, elemof(gids), gids);
+				break;
+			case 'h':
+				usage();
 				break;
 			default:
 				errx(1, "unknown option %c", (char) opt);
