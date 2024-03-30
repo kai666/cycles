@@ -146,11 +146,16 @@ usage(void)
 {
 	fprintf(stderr, "cycles - count CPU cycles for a command\n"
 	    "\n"
-	    "usage: cycles [-u user/id] [-g group/id[,group/id,...]] <command>\n"
+	    "usage: cycles [-u user/id] [-g group/id[,group/id,...]] [--] <command>\n"
 	    "\n"
 	    "options:\n"
 	    "\t-u user/id	set identity before starting command\n"
 	    "\t-g group/id,...	set list of groups before starting command\n"
+	    "\t--		use -- to isolate command from option parsing\n"
+	    "\n"
+	    "example:\n"
+	    "sudo cycles -- /bin/ls -l /\n"
+	    "\n"
 	);
 	exit(2);
 }
