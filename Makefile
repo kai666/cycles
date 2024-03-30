@@ -25,7 +25,7 @@ INSTALL_DATA=	${INSTALL} -m 0644
 
 deb:		${DEB}
 
-${DEB}:
+${DEB}: ${TARGETS}
 	mkdir -m 0755 -p deb/usr/bin
 	mkdir -m 0755 -p deb/DEBIAN
 	${INSTALL_EXE} cycles deb/usr/bin
